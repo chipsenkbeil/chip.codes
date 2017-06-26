@@ -1,19 +1,12 @@
-language: go
-sudo: false
-cache:
-  directories:
-  - "$TRAVIS_BUILD_DIR/gosrc"
-go:
-- 1.7.x
+dist: trusty
+sudo: required
 env:
-  matrix:
-  - GOPATH=$TRAVIS_BUILD_DIR/gosrc
   global:
     secure: tY7cLHAo2nf3I97AqzW5CloNdSlvbyHTW1d1bC949RZdNX0iUPvQeGDfs5+Ln+tq1EDfoy5N9ERprOclNZ0KaJLeX8GvKRiFy5UGU4/L6k4QlrH+iphMcQtnQiTv0VmdEwAj3wino8JvBHGf0zIGNc7/9oNOPIVF39aamSjtYIutv2HttXJEIQeoYAzi8FupDTbt9pPCcj8tSY+Pw3VgS0EatKdo4+vkUyFpFO7JsMjJnPmo+P1W3zOyC53flRUQBw3lHk1Of0QspK081A+4STmkYcI3gMM7RWpDKCDnGPe9fqemIPEers+o073kSvoM3ayS5r6wocVoz+B4AmliRGi23IiXnWbIlqKhmG9GU2OlpDLGMUHDb3Y+hehY8bx2YgLffT1o2Pepo0+o0L4TZS98ea31HMQXH/OoAqXf8bHrhTLqycnSAD8lS6nSfa1mwXR+pbYM/hx8M+oT+cP3Q+Glqr/1EJycN6BRPX2liPZ2+JDrayNMDxUV4UGwZ9CS05tiapEjgWGv3bzTMZbmoW470rdFmUVSnjPfXCAfJ+m7DHQjGEEjJEaAqOZNx2uEyNTVM8CuYH9VqIG5MOxFlrx0RI6XYnOZpqxqFJOrxlC+CLr9SEClNTAL1NXy+b39WLA/mVN3L0PYrSiG+SSRIoAcHZ7P7CF+ucddAkKJSJw=
 install:
-- mkdir -p "$TRAVIS_BUILD_DIR/gosrc"
-- go get -v github.com/spf13/hugo && $GOPATH/bin/hugo version
-script: make
+ - wget -O /tmp/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.24.1/hugo_0.24.1_Linux-64bit.deb
+ - sudo dpkg -i /tmp/hugo.deb
+script: hugo --theme="slate"
 after_success:
-- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && make
-  push
+- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && make push
+
